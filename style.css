@@ -24,6 +24,7 @@ body {
   color: #000;
   font-weight: bold;
   font-size: 20px;
+  margin: 20px 0;
 }
 
 .day-sep::before, .day-sep::after {
@@ -37,7 +38,47 @@ body {
 }
 
 .entry {
+  max-width: 500px;
+  min-height: 100px;
+  border: 2px #1E90FF solid;
+  border-radius: 20px;
+  box-sizing: border-box;
+  margin: auto;
+  padding: 20px 15px 40px 65px;
+  position: relative;
+}
 
+.entry-time {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 18px 0;
+  background: #1E90FF;
+  color: #FFF;
+}
+
+.entry-att {
+  font-size: 30px;
+  margin-top: 30px;
+}
+
+.entry-city {
+  font-size: 16px;
+}
+
+.entry-journal {
+  font-size: 18px;
+  color: #888;
+  margin-top: 20px;
+}
+
+.entry-journal::before {
+  content: "My Thoughts";
+  display: block;
+  color: #333;
+  font-style: italic;
 }
 
 .btn {
