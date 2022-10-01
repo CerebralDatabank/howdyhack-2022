@@ -10,10 +10,6 @@ body {
   padding: 10px 0;
 }
 
-#page-title::before, #page-title::after {
-  /*TODO*/
-}
-
 #main-btn-wrapper {
   text-align: center;
   margin: 1em 0;
@@ -39,7 +35,7 @@ body {
 
 .entry {
   max-width: 500px;
-  min-height: 100px;
+  min-height: 200px;
   border: 2px #1E90FF solid;
   border-radius: 20px;
   box-sizing: border-box;
@@ -62,16 +58,22 @@ body {
 .entry-att {
   font-size: 30px;
   margin-top: 30px;
+  width: 200px;
+  word-wrap: break-word;
 }
 
 .entry-city {
   font-size: 16px;
+  width: 200px;
+  word-wrap: break-word;
 }
 
 .entry-journal {
   font-size: 18px;
   color: #888;
   margin-top: 20px;
+  width: 200px;
+  word-wrap: break-word;
 }
 
 .entry-journal::before {
@@ -81,9 +83,19 @@ body {
   font-style: italic;
 }
 
+#empty-msg {
+  font-size: 30px;
+  color: #CCC;
+  font-style: italic;
+  text-align: center;
+  margin-top: 50px;
+}
+
 dialog {
   width: 400px;
   height: 500px;
+  background: #FFF;
+  border: 2px solid #CCC;
   border-radius: 20px;
 }
 
@@ -104,13 +116,46 @@ dialog::backdrop {
 
 .diag-input span {
   display: inline-block;
-  min-width: 90px;
+  min-width: 100px;
 }
 
-dialog input {
+dialog input, dialog textarea {
   padding: 10px;
-  width: 270px;
+  width: 260px;
   font: 20px "Segoe UI", "Arial", sans-serif;
+}
+
+dialog textarea {
+  width: 367px;
+  height: 80px;
+  resize: none;
+  margin-top: 8px;
+}
+
+#diag-close {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 0 18px 0 4px;
+  background: transparent;
+  color: #000;
+  text-align: center;
+  line-height: 40px;
+  user-select: none;
+}
+
+#diag-close:hover {
+  color: #A00;
+  background: #0002;
+}
+
+#diag-close:active {
+  color: #A00;
+  background: #0004;
 }
 
 .btn {

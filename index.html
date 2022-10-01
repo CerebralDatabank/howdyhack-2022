@@ -6,24 +6,19 @@
     <script src="./main.js"></script>
     <link href="./style.css" rel="stylesheet">
   </head>
-  <body onload="document.getElementById('add-event-diag').showModal();">
+  <body>
     <header>
       <div id="page-title">Travel Journal</div>
     </header>
     <main>
       <div id="main-btn-wrapper">
-        <button class="btn btn-blue" onclick="document.getElementById('add-event').showModal();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
+        <button class="btn btn-blue" onclick="document.getElementById('add-event-diag').showModal();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
       </div>
       <div id="entry-list">
-        <div class="day-sep">Saturday, October 1 (Day 1)</div>
-        <div class="entry">
-          <div class="entry-time">9:30 PM</div>
-          <div class="entry-att">HowdyHack 2022</div>
-          <div class="entry-city">College Station, Texas</div>
-          <div class="entry-journal">Best thing ever!!</div>
-        </div>
+        <div id="empty-msg">No events yet!</div>
       </div>
       <dialog id="add-event-diag">
+        <div id="diag-close" onclick="closeDiag();">&#x274C;&#xFE0E;</div>
         <div class="diag-title">Add Event</div>
         <div class="diag-input">
           <span>City:&nbsp;</span>
@@ -34,8 +29,20 @@
           <input type="text" id="diag-att" placeholder="e.g. Kyle Field">
         </div>
         <div class="diag-input">
+          <span>Date:&nbsp;</span>
+          <input type="date" id="diag-date">
+        </div>
+        <div class="diag-input">
           <span>Time:&nbsp;</span>
           <input type="time" id="diag-time">
+        </div>
+        <div class="diag-input">
+          <div>Journal:&nbsp;</div>
+          <textarea type="text" id="diag-journal" placeholder="Jot down what you are excited for"></textarea>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <button class="btn" onclick="closeDiag(); clearDiag();">Cancel</button>
+          <button class="btn btn-blue" onclick="addEvent(); clearDiag();">Add</button>
         </div>
       </dialog>
     </main>
