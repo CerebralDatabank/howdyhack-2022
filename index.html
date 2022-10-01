@@ -6,13 +6,13 @@
     <script src="./main.js"></script>
     <link href="./style.css" rel="stylesheet">
   </head>
-  <body>
+  <body onload="document.getElementById('add-event-diag').showModal();">
     <header>
       <div id="page-title">Travel Journal</div>
     </header>
     <main>
       <div id="main-btn-wrapper">
-        <button class="btn btn-blue">Add Trip</button>
+        <button class="btn btn-blue" onclick="document.getElementById('add-event').showModal();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
       </div>
       <div id="entry-list">
         <div class="day-sep">Saturday, October 1 (Day 1)</div>
@@ -23,6 +23,21 @@
           <div class="entry-journal">Best thing ever!!</div>
         </div>
       </div>
+      <dialog id="add-event-diag">
+        <div class="diag-title">Add Event</div>
+        <div class="diag-input">
+          <span>City:&nbsp;</span>
+          <input type="text" id="diag-city" placeholder="e.g. College Station, TX">
+        </div>
+        <div class="diag-input">
+          <span>Attraction:&nbsp;</span>
+          <input type="text" id="diag-att" placeholder="e.g. Kyle Field">
+        </div>
+        <div class="diag-input">
+          <span>Time:&nbsp;</span>
+          <input type="time" id="diag-time">
+        </div>
+      </dialog>
     </main>
   </body>
 </html>

@@ -43,7 +43,7 @@ body {
   border: 2px #1E90FF solid;
   border-radius: 20px;
   box-sizing: border-box;
-  margin: auto;
+  margin: 20px auto;
   padding: 20px 15px 40px 65px;
   position: relative;
 }
@@ -79,6 +79,38 @@ body {
   display: block;
   color: #333;
   font-style: italic;
+}
+
+dialog {
+  width: 400px;
+  height: 500px;
+  border-radius: 20px;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(5px);
+}
+
+.diag-title {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.diag-input {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.diag-input span {
+  display: inline-block;
+  min-width: 90px;
+}
+
+dialog input {
+  padding: 10px;
+  width: 270px;
+  font: 20px "Segoe UI", "Arial", sans-serif;
 }
 
 .btn {
