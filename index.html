@@ -22,25 +22,27 @@
         <div class="diag-title">Add Event</div>
         <div class="diag-input">
           <span>City:&nbsp;</span>
-          <input type="text" id="diag-city" placeholder="e.g. College Station, TX">
+          <input type="text" onblur="validateText(this);" oninput="validateText(this);" id="diag-city" placeholder="e.g. College Station, TX">
         </div>
         <div class="diag-input">
           <span>Attraction:&nbsp;</span>
-          <input type="text" id="diag-att" placeholder="e.g. Kyle Field">
+          <input type="text" onblur="validateText(this);" oninput="validateText(this);" id="diag-att" placeholder="e.g. Kyle Field">
         </div>
         <div class="diag-input">
           <span>Date:&nbsp;</span>
-          <input type="date" id="diag-date">
+          <input type="date" onblur="validateText(this); checkTimeConflict('blur');" oninput="validateText(this); checkTimeConflict('input');" id="diag-date">
         </div>
         <div class="diag-input">
           <span>Time:&nbsp;</span>
-          <input type="time" id="diag-time">
+          <input type="time" id="diag-time" onblur="validateText(this); checkTimeConflict('blur');" oninput="validateText(this); checkTimeConflict('input');">
         </div>
         <div class="diag-input">
-          <div>Journal:&nbsp;</div>
+          <div style="user-select: none;">Journal:&nbsp;</div>
           <textarea type="text" id="diag-journal" placeholder="Jot down what you are excited for"></textarea>
         </div>
-        <div style="text-align: center; margin-top: 20px;">
+        <div id="time-conflict" class="hidden">You already have an event at this time!</div>
+        <div id="submit-error" class="hidden">Make sure you entered everything above!</div>
+        <div style="text-align: center; margin-top: 8px;">
           <button class="btn" onclick="closeDiag(); clearDiag();">Cancel</button>
           <button class="btn btn-blue" onclick="addEvent(); clearDiag();">Add</button>
         </div>

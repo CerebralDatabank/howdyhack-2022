@@ -8,6 +8,7 @@ body {
   text-align: center;
   border-bottom: 2px solid #CCC;
   padding: 10px 0;
+  user-select: none;
 }
 
 #main-btn-wrapper {
@@ -171,10 +172,11 @@ body {
   font-style: italic;
   text-align: center;
   margin-top: 50px;
+  user-select: none;
 }
 
 dialog {
-  width: 400px;
+  width: 420px;
   height: 500px;
   background: #FFF;
   border: 2px solid #CCC;
@@ -189,6 +191,7 @@ dialog::backdrop {
   font-size: 30px;
   font-weight: bold;
   text-align: center;
+  user-select: none;
 }
 
 .diag-input {
@@ -199,6 +202,49 @@ dialog::backdrop {
 .diag-input span {
   display: inline-block;
   min-width: 100px;
+  user-select: none;
+}
+
+input, textarea {
+  border: 1px solid #808080;
+  border-radius: 2px;
+}
+
+input:hover, textarea:hover {
+  border: 1px solid #555;
+}
+
+input:focus, textarea:focus {
+  outline: 1px solid #1E90FF;
+  border: 1px solid #1E90FF;
+}
+
+.invalid-input, invalid-input:hover {
+  background: #FEE;
+  border: 1px solid #C00;
+  outline: 1px solid #C00;
+}
+
+.warning-input {
+  background: #FEC;
+  border: 1px solid #FFA500;
+  outline: 1px solid #FFA500;
+}
+
+#time-conflict {
+  color: #DD8500;
+  text-align: center;
+  font-weight: bold;
+}
+
+#submit-error {
+  color: #C00;
+  text-align: center;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
 }
 
 dialog input, dialog textarea {
@@ -249,13 +295,28 @@ dialog textarea {
   height: 40px;
   padding: 5px;
   font: 16px "Segoe UI", "Arial", sans-serif;
+  user-select: none;
 }
+
 .btn:hover {
   background: #DDD;
 }
+
 .btn:active {
   background: #CDCDCD;
   transform: scale(0.95);
+}
+
+.btn:focus {
+  outline: 1px solid #1E90FF;
+  border: 1px solid #1E90FF;
+}
+
+.btn:disabled {
+  background: #EEE;
+  transform: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-blue {
@@ -265,9 +326,18 @@ dialog textarea {
 }
 
 .btn-blue:hover {
-  background: #1872cc;
+  background: #1872CC;
 }
 
 .btn-blue:active {
-  background: #114f8d;
+  background: #114F8D;
+}
+
+.btn-blue:focus {
+  outline: 1px solid #114F8D;
+  border: 1px solid #114F8D;
+}
+
+.btn-blue:disabled {
+  background: #1E90FF;
 }
