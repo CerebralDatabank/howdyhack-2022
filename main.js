@@ -2,6 +2,10 @@ function getTimeStr(date) {
   return `${(date.getHours() == 12 ? 12 : date.getHours() % 12)}:${String(date.getMinutes()).padStart(2, "0")} ${(date.getHours() < 12) ? "AM" : "PM"}`;
 }
 
+function genId() {
+  return Math.floor(Math.random() * (0xFFFFFF - 0 + 1) + 0).toString(16).padStart(6, "0").toUpperCase();
+}
+
 function getDateStr(timestamp) {
   let date = new Date(timestamp);
   return (
@@ -16,10 +20,13 @@ class Entry {
     this.att = att;
     this.city = city;
     this.journal = journal;
+    this.id = genId();
   }
 
   toHTML() {
-    return `<div class="entry" data-timestamp="${this.timestamp}">
+    return `<div class="entry" id="entry_${this.id}" data-timestamp="${this.timestamp}">
+    <div class="entry-edit"></div>
+    <div class="entry-delete" onclick="deleteEntry(this.parentElement.id.slice(6));"></div>
     <div class="entry-time">${getTimeStr(this.date)}</div>
     <div class="entry-att">${this.att}</div>
     <div class="entry-city">${this.city}</div>
@@ -114,6 +121,31 @@ function addEvent() {
 
   insertEntry(currEntry);
   closeDiag();
+}
+
+// function saveEntry(entryId) {
+// f
+// }
+
+function deleteEntry(entryId) {
+  if (!confirm("Are you sure you want to delete this?\nThis action cannot be undone!")) {
+    return;
+  }
+  document.getElementById(`entry_${entryId}`).classList.add("entry-deleting");
+  let currDaySep = document.getElementById(`entry_${entryId}`);
+  while (!currDaySep.classList.contains("day-sep") && currDaySep != null) {
+    currDaySep = currDaySep.previousElementSibling;
+  }
+  if (!(currDaySep && currDaySep.nextElementSibling && !currDaySep.nextElementSibling.classList.contains("entry"))) {
+    currDaySep.classList.add("day-sep-deleting");
+    setTimeout(() => {
+      currDaySep.remove();
+    }, 700);
+  }
+  setTimeout(() => {
+    document.getElementById(`entry_${entryId}`).remove();
+    
+  }, 1000);
 }
 
 

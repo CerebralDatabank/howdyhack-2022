@@ -50,7 +50,10 @@ body {
   left: 0;
   font-size: 20px;
   padding: 8px;
-  border-radius: 18px 0;
+  min-width: 26px;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 18px 0 12px 0;
   background: #1E90FF;
   color: #FFF;
 }
@@ -81,6 +84,85 @@ body {
   display: block;
   color: #333;
   font-style: italic;
+}
+
+.entry-edit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  padding: 8px;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  border-radius: 0 18px 0 0;
+  background: #1E90FF;
+  color: #FFF;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.entry:hover .entry-edit, .entry:hover .entry-delete {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+
+.entry-edit:hover {
+  background: #1872cc;
+}
+
+.entry-edit:active {
+  background: #114f8d;
+}
+
+.entry-edit::after {
+  content: "\270E";
+  font-size: 24px;
+  display: inline-block;
+  transform: scale(-1, 1);
+}
+
+.entry-delete {
+  position: absolute;
+  top: 0;
+  right: 42px;
+  font-size: 20px;
+  padding: 8px;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  border-radius: 0 0 0 12px;
+  background: #808080;
+  color: #FFF;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.entry-delete:hover {
+  background: #C00;
+}
+
+.entry-delete:active {
+  background: #A00;
+}
+
+.entry-delete::after {
+  content: "\1F5D1";
+  font-size: 24px;
+  display: inline-block;
+  transform: scale(-1, 1);
+}
+
+.entry-deleting {
+  transform: scale(0, 0) rotate(180deg);
+  transition: transform 500ms;
+}
+
+.day-sep-deleting {
+  opacity: 0;
+  transition: opacity 500ms;
 }
 
 #empty-msg {
