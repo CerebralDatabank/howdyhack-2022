@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="green-theme">
   <head>
     <title>HowdyHack 2022</title>
     <meta charset="UTF-8">
@@ -10,9 +10,22 @@
     <header>
       <div id="page-title">Travel Planner</div>
     </header>
+    <div id="themes">
+      <div id="theme-btn-blue" onclick="switchTheme(this.id);"></div>
+      <div id="theme-btn-green" onclick="switchTheme(this.id);"></div>
+      <div id="theme-btn-red" onclick="switchTheme(this.id);"></div>
+      <div id="theme-btn-purple" onclick="switchTheme(this.id);"></div>
+      <div id="theme-btn-maroon" onclick="switchTheme(this.id);"></div>
+    </div>
+    <div id="welcome-screen">
+      <div class="big-title">Let Your<br>Adventure Begin!</div>
+      <div>
+        <button class="btn btn-action btn-big" onclick="hideWelcomeScreen();">Start planning&nbsp;&#x1F872;</button>
+      </div>
+    </div>
     <main>
       <div id="main-btn-wrapper">
-        <button class="btn btn-blue" onclick="openDiag();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
+        <button class="btn btn-action" onclick="openDiag();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
       </div>
       <div id="entry-list">
         <div id="empty-msg">No events yet!</div>
@@ -46,7 +59,7 @@
         </div>
         <div style="text-align: center; margin-top: 8px;">
           <button class="btn" onclick="closeDiag(); clearDiag(); clearInvalid(); diagAddMode();">Cancel</button>
-          <button class="btn btn-blue" id="diag-add-btn" onclick="addEvent(entryEditId);">Add</button>
+          <button class="btn btn-action" id="diag-add-btn" onclick="addEvent(entryEditId);">Add</button>
         </div>
       </dialog>
     </main>

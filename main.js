@@ -57,7 +57,6 @@ class Entry {
 
   static fromString(str) {
     let entry = new Entry();
-    console.log("from str: " + str);
     let obj = JSON.parse(str);
     entry.date = new Date(obj.date);
     entry.att = obj.att;
@@ -82,6 +81,24 @@ function validateText(inputElem) {
 
 function combineDateTime(dateStr, timeStr) {
   return new Date(dateStr + "T" + timeStr);
+}
+
+function hideWelcomeScreen() {
+  let welcomeScr = document.getElementById("welcome-screen")
+  welcomeScr.classList.add("fade-up-out");
+  setInterval(() => {
+    welcomeScr.remove();
+  }, 400);
+}
+
+function switchTheme(elemId) {
+  ["blue", "green", "purple", "red", "maroon"].forEach(themeId => {
+    document.documentElement.classList.remove(`theme-${themeId}`);
+  });
+  theme = elemId.slice(10);
+  document.documentElement.classList.add(`theme-${theme}`);
+  console.log(theme);
+  storeTheme();
 }
 
 function openDiag() {
@@ -138,6 +155,7 @@ function checkTimeConflict(evtType) {
 }
 
 let entries = [];
+let theme = "blue";
 
 function closeDiag() {
   document.getElementById("add-event-diag").close();
@@ -254,7 +272,6 @@ function deleteEntry(entryId, instant = false) {
     currDaySep = currDaySep.previousElementSibling;
   }
   if (currDaySep) {
-    console.log(currDaySep);
     let nextSibling = currDaySep.nextElementSibling;
     if (nextSibling.classList.contains("entry-deleting")) {
       nextSibling = nextSibling.nextElementSibling;
@@ -308,4 +325,17 @@ function restoreEntries() {
   }
 }
 
-window.addEventListener("load", restoreEntries);
+function storeTheme() {
+  localStorage.setItem("user_theme", theme);
+}
+
+function restoreTheme() {
+  theme = localStorage.getItem("user_theme");
+  console.log(`theme-btn-${theme}`);
+  switchTheme(`theme-btn-${theme}`);
+}
+
+window.addEventListener("load", () => {
+  restoreEntries();
+  restoreTheme();
+});

@@ -1,5 +1,139 @@
+:root {
+  --color-primary: #1E90FF; /*lightest*/
+  --color-primary-hover: #1872CC; /*medium*/
+  --color-primary-active: #114F8D; /*darkest*/
+  --color-primary-border: #1080F0; /*slightly darker than primary*/
+}
+
 body {
   font-family: "Segoe UI", "Arial", sans-serif;
+  background: #e6fcfc;
+}
+
+:root.theme-green {
+  --color-primary: #008000; 
+  --color-primary-hover: #007000;
+  --color-primary-active: #006000;
+  --color-primary-border: #006500;
+}
+
+.theme-green body {
+  background: #DFD;
+}
+
+:root.theme-purple {
+  --color-primary: #c241c4;
+  --color-primary-hover: #ae28b0;
+  --color-primary-active: #8a02c9;
+  --color-primary-border: #99219c;
+}
+
+.theme-purple body {
+  background: #f4e3fc;
+}
+
+:root.theme-red {
+  --color-primary: #C00;
+  --color-primary-hover: #A00;
+  --color-primary-active: #800;
+  --color-primary-border: #B00;
+}
+
+.theme-red body {
+  background: #fce6e6;
+}
+
+:root.theme-maroon {
+  --color-primary: #500000; 
+  --color-primary-hover: #5a2222;
+  --color-primary-active: #440101;
+  --color-primary-border: #5c2e2e;
+}
+
+.theme-maroon body {
+  background: #FFF;
+}
+
+#themes {
+  position: absolute;
+  top: 55px;
+  right: 10px;
+}
+
+#themes div {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#theme-btn-blue {
+  background: #1E90FF;
+  border: 2px solid #1080F0;
+}
+
+#theme-btn-green {
+  background: #008000;
+  border: 2px solid #006500;
+}
+
+#theme-btn-red {
+  background: #C00;
+  border: 2px solid #B00;
+}
+
+#theme-btn-purple {
+  background: #c241c4;
+  border: 2px solid #99219c;
+}
+
+#theme-btn-maroon {
+  background: #500000;
+  border: 2px solid #5c2e2e;
+}
+
+#welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #CCDFFF;
+  text-align: center;
+  z-index: 1;
+  animation: rainbow 10s linear 0s infinite normal none running;
+}
+
+@keyframes rainbow {
+  0% {background: #edb489;}
+  15% {background: #a3e3a3;}
+  30% {background: #a3c9e3;}
+  45% {background: #cba3e3;}
+  60% {background: #a3c9e3;}
+  75% {background: #a3e3a3;}
+  90% {background: #f1a596;}
+  100% {background: #edb489;}
+}
+
+.fade-up-out {
+  transform: scale(4, 4);
+  opacity: 0;
+  transition: transform 1s, opacity 300ms;
+}
+
+@font-face {
+  font-family: MarckScript;
+  src: url("./MarckScript-Regular.ttf");
+}
+
+#welcome-screen .big-title {
+  font-size: 8vw;
+  font-weight: normal;
+  font-family: "MarckScript", "Seguo UI", "Arial", "sans-serif";
+  text-align: center;
+  user-select: none;
+  margin: 100px;
 }
 
 #page-title {
@@ -37,7 +171,7 @@ body {
 .entry {
   max-width: 500px;
   min-height: 200px;
-  border: 2px #1E90FF solid;
+  border: 2px var(--color-primary) solid;
   border-radius: 20px;
   box-sizing: border-box;
   margin: 20px auto;
@@ -55,7 +189,7 @@ body {
   height: 26px;
   line-height: 26px;
   border-radius: 18px 0 12px 0;
-  background: #1E90FF;
+  background: var(--color-primary);
   color: #FFF;
 }
 
@@ -98,7 +232,7 @@ body {
   line-height: 26px;
   text-align: center;
   border-radius: 0 18px 0 0;
-  background: #1E90FF;
+  background: var(--color-primary);
   color: #FFF;
   opacity: 0;
   transition: opacity 200ms;
@@ -110,11 +244,11 @@ body {
 }
 
 .entry-edit:hover {
-  background: #1872cc;
+  background: var(--color-primary-hover);
 }
 
 .entry-edit:active {
-  background: #114f8d;
+  background: var(--color-primary-active);
 }
 
 .entry-edit::after {
@@ -215,8 +349,8 @@ input:hover, textarea:hover {
 }
 
 input:focus, textarea:focus {
-  outline: 1px solid #1E90FF;
-  border: 1px solid #1E90FF;
+  outline: 1px solid var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
 .invalid-input, invalid-input:hover {
@@ -323,8 +457,8 @@ dialog textarea {
 }
 
 .btn:focus {
-  outline: 1px solid #1E90FF;
-  border: 1px solid #1E90FF;
+  outline: 1px solid var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
 .btn:disabled {
@@ -334,25 +468,33 @@ dialog textarea {
   cursor: not-allowed;
 }
 
-.btn-blue {
-  background: #1E90FF;
+.btn-action {
+  background: var(--color-primary);
   color: #FFF;
-  border: 2px solid #1080F0;
+  border: 2px solid var(--color-primary-border);
 }
 
-.btn-blue:hover {
-  background: #1872CC;
+.btn-action:hover {
+  background: var(--color-primary-hover);
 }
 
-.btn-blue:active {
-  background: #114F8D;
+.btn-action:active {
+  background: var(--color-primary-active);
 }
 
-.btn-blue:focus {
-  outline: 1px solid #114F8D;
-  border: 1px solid #114F8D;
+.btn-action:focus {
+  outline: 1px solid var(--color-primary-active);
+  border: 1px solid var(--color-primary-active);
 }
 
-.btn-blue:disabled {
-  background: #1E90FF;
+.btn-action:disabled {
+  background: var(--color-primary);
+}
+
+.btn-big {
+  min-width: 250px;
+  height: 70px;
+  padding: 10px;
+  border-radius: 35px;
+  font: 24px "Segoe UI", "Arial", sans-serif;
 }
