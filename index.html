@@ -8,18 +8,18 @@
   </head>
   <body>
     <header>
-      <div id="page-title">Travel Journal</div>
+      <div id="page-title">Travel Planner</div>
     </header>
     <main>
       <div id="main-btn-wrapper">
-        <button class="btn btn-blue" onclick="document.getElementById('add-event-diag').showModal();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
+        <button class="btn btn-blue" onclick="openDiag();">&#x2795;&#xFE0E;&nbsp;&nbsp;Add Event</button>
       </div>
       <div id="entry-list">
         <div id="empty-msg">No events yet!</div>
       </div>
       <dialog id="add-event-diag">
-        <div id="diag-close" onclick="closeDiag();">&#x274C;&#xFE0E;</div>
-        <div class="diag-title">Add Event</div>
+        <div id="diag-close" onclick="closeDiag(); clearInvalid(); if (entryEditId) {clearDiag();} diagAddMode();">&#x274C;&#xFE0E;</div>
+        <div id="diag-title">Add Event</div>
         <div class="diag-input">
           <span>City:&nbsp;</span>
           <input type="text" onblur="validateText(this);" oninput="validateText(this);" id="diag-city" placeholder="e.g. College Station, TX">
@@ -40,11 +40,13 @@
           <div style="user-select: none;">Journal:&nbsp;</div>
           <textarea type="text" id="diag-journal" placeholder="Jot down what you are excited for"></textarea>
         </div>
-        <div id="time-conflict" class="hidden">You already have an event at this time!</div>
-        <div id="submit-error" class="hidden">Make sure you entered everything above!</div>
+        <div id="msg-wrapper">
+          <div id="time-conflict" class="hidden">You already have an event at this time!</div>
+          <div id="submit-error" class="hidden">Make sure you entered everything above!</div>
+        </div>
         <div style="text-align: center; margin-top: 8px;">
-          <button class="btn" onclick="closeDiag(); clearDiag();">Cancel</button>
-          <button class="btn btn-blue" onclick="addEvent(); clearDiag();">Add</button>
+          <button class="btn" onclick="closeDiag(); clearDiag(); clearInvalid(); diagAddMode();">Cancel</button>
+          <button class="btn btn-blue" id="diag-add-btn" onclick="addEvent(entryEditId);">Add</button>
         </div>
       </dialog>
     </main>

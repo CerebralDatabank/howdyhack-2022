@@ -25,7 +25,7 @@ class Entry {
 
   toHTML() {
     return `<div class="entry" id="entry_${this.id}" data-timestamp="${this.timestamp}">
-    <div class="entry-edit"></div>
+    <div class="entry-edit" onclick="diagEditMode('${this.id}'); openDiag();"></div>
     <div class="entry-delete" onclick="deleteEntry(this.parentElement.id.slice(6));"></div>
     <div class="entry-time">${getTimeStr(this.date)}</div>
     <div class="entry-att">${this.att}</div>
@@ -57,6 +57,7 @@ class Entry {
 
   static fromString(str) {
     let entry = new Entry();
+    console.log("from str: " + str);
     let obj = JSON.parse(str);
     entry.date = new Date(obj.date);
     entry.att = obj.att;
@@ -83,6 +84,40 @@ function combineDateTime(dateStr, timeStr) {
   return new Date(dateStr + "T" + timeStr);
 }
 
+function openDiag() {
+  document.getElementById('add-event-diag').showModal();
+}
+
+function showDiagMsg(elemId) {
+  document.getElementById("time-conflict").classList.add("hidden");
+  document.getElementById("submit-error").classList.add("hidden");
+  document.getElementById(elemId).classList.remove("hidden");
+
+  if (elemId == "time-conflict") {
+    document.getElementById("diag-date").classList.add("warning-input");
+    document.getElementById("diag-time").classList.add("warning-input");
+  }
+}
+
+function hideDiagMsg(elemId) {
+  document.getElementById("time-conflict").classList.add("hidden");
+  document.getElementById("submit-error").classList.add("hidden");
+  document.getElementById(elemId).classList.add("hidden");
+
+  if (elemId == "time-conflict") {
+    document.getElementById("diag-date").classList.remove("warning-input");
+    document.getElementById("diag-time").classList.remove("warning-input");
+  }
+}
+
+function clearInvalid() {
+  hideDiagMsg("time-conflict");
+  document.getElementById("diag-city").classList.remove("invalid-input");
+  document.getElementById("diag-att").classList.remove("invalid-input");
+  document.getElementById("diag-date").classList.remove("invalid-input");
+  document.getElementById("diag-time").classList.remove("invalid-input");
+}
+
 function checkTimeConflict(evtType) {
   if (evtType == "blur") {
     let currDate = combineDateTime(document.getElementById("diag-date").value, document.getElementById("diag-time").value);
@@ -90,20 +125,15 @@ function checkTimeConflict(evtType) {
       if (entry.date.toString() == "Invalid Date") {
         continue;
       }
-      if (entry.date.toString() == currDate.toString()) {
-        document.getElementById("diag-date").classList.add("warning-input");
-        document.getElementById("diag-time").classList.add("warning-input");
-        document.getElementById("submit-error").classList.add("hidden");
-        document.getElementById("time-conflict").classList.remove("hidden");
+      if (entry.date.toString() == currDate.toString() && (!entryEditId || entries.find(e => e == entryEditId).date.toString() != currDate.toString())) {
+        showDiagMsg("time-conflict");
         break;
       }
     }
   }
 
   if (evtType == "input") {
-    document.getElementById("diag-date").classList.remove("warning-input");
-    document.getElementById("diag-time").classList.remove("warning-input");
-    document.getElementById("time-conflict").classList.add("hidden");
+    hideDiagMsg("time-conflict");
   }
 }
 
@@ -115,10 +145,32 @@ function closeDiag() {
 
 function clearDiag() {
   // document.getElementById("diag-date").value = "";
-  // document.getElementById("diag-time").value = "";
+  document.getElementById("diag-time").value = "";
   document.getElementById("diag-att").value = "";
   document.getElementById("diag-city").value = "";
   document.getElementById("diag-journal").value = "";
+}
+
+let entryEditId = null;
+
+function diagEditMode(entryId) {
+  document.getElementById("diag-title").innerHTML = "Edit Event";
+  document.getElementById("diag-add-btn").innerHTML = "Save";
+  entryEditId = entryId;
+
+  let entryToEdit = entries.find(e => e.id == entryId);
+
+  document.getElementById("diag-date").value = getDateStr(entryToEdit.date); 
+  document.getElementById("diag-time").value = entryToEdit.time;
+  document.getElementById("diag-att").value = entryToEdit.att;
+  document.getElementById("diag-city").value = entryToEdit.city;
+  document.getElementById("diag-journal").value = entryToEdit.journal;
+}
+
+function diagAddMode() {
+  document.getElementById("diag-title").innerHTML = "Add Event";
+  document.getElementById("diag-add-btn").innerHTML = "Add";
+  entryEditId = null;
 }
 
 function genDaySep(entry) {
@@ -143,13 +195,7 @@ function insertEntry(entry) {
     //   alert("Conflicting time!");
     // }
     if (elem.classList.contains("day-sep") && entry.dateStr == getDateStr(Number(elem.getAttribute("data-timestamp")))) {
-      console.group("Day sep check");
-      console.log(elem.classList.contains("day-sep"));
-      console.log(entry.dateStr);
-      console.log(getDateStr(Number(elem.getAttribute("data-timestamp"))));
-      console.groupEnd();
       daySepExists = true;
-      console.log("daySepExists is true");
     }
     if (entry.timestamp < Number(elem.getAttribute("data-timestamp"))) {
       if (!daySepExists) {
@@ -166,14 +212,13 @@ function insertEntry(entry) {
   document.getElementById("entry-list").insertAdjacentHTML("beforeend", htmlStr);
 }
 
-function addEvent() {
+function addEvent(entryId) {
   let valid1 = validateText(document.getElementById("diag-city"));
   let valid2 = validateText(document.getElementById("diag-att"));
   let valid3 = validateText(document.getElementById("diag-date"));
   let valid4 = validateText(document.getElementById("diag-time"));
   if (!(valid1 && valid2 && valid3 && valid4)) {
-    document.getElementById("time-conflict").classList.add("hidden");
-    document.getElementById("submit-error").classList.remove("hidden");
+    showDiagMsg("submit-error");
     return;
   }
 
@@ -188,33 +233,63 @@ function addEvent() {
     document.getElementById("diag-journal").value.replace(/\n/g, "<br>")
   );
 
+  if (entryId) {
+    deleteEntry(entryId, true);
+  }
   entries.push(currEntry);
-
   insertEntry(currEntry);
   storeEntries(entries);
+  clearDiag();
+  clearInvalid();
   closeDiag();
 }
 
-function deleteEntry(entryId) {
-  if (!confirm("Are you sure you want to delete this?\nThis action cannot be undone!")) {
+function deleteEntry(entryId, instant = false) {
+  if (!instant && !confirm("Are you sure you want to delete this?\nThis action cannot be undone!")) {
     return;
   }
   document.getElementById(`entry_${entryId}`).classList.add("entry-deleting");
   let currDaySep = document.getElementById(`entry_${entryId}`);
-  while (!currDaySep.classList.contains("day-sep") && currDaySep != null) {
+  while (currDaySep != null && !currDaySep.classList.contains("day-sep")) {
     currDaySep = currDaySep.previousElementSibling;
   }
-  if (!(currDaySep && currDaySep.nextElementSibling && !currDaySep.nextElementSibling.classList.contains("entry"))) {
-    currDaySep.classList.add("day-sep-deleting");
-    setTimeout(() => {
-      currDaySep.remove();
-    }, 700);
+  if (currDaySep) {
+    console.log(currDaySep);
+    let nextSibling = currDaySep.nextElementSibling;
+    if (nextSibling.classList.contains("entry-deleting")) {
+      nextSibling = nextSibling.nextElementSibling;
+    }
+    if (nextSibling && nextSibling.classList.contains("entry")) {}
+    else {
+      currDaySep.classList.add("day-sep-deleting");
+      if (!instant) {
+        setTimeout(() => {
+          currDaySep.remove();
+        }, 700);
+      }
+      else {
+        currDaySep.remove();
+      }
+    }
   }
-  setTimeout(() => {
+  if (!instant) {
+    setTimeout(() => {
+      document.getElementById(`entry_${entryId}`).remove();
+      entries.splice(entries.findIndex(entry => entry.id == entryId), 1);
+      if (entries.length == 0) {
+        document.getElementById("entry-list").insertAdjacentHTML("beforeend", `<div id="empty-msg">No events yet!</div>`);
+      }
+      storeEntries(entries);
+    }, 1000);
+  }
+  else {
     document.getElementById(`entry_${entryId}`).remove();
-    delete entries[entries.findIndex(entry => entry.id == entryId)];
+    entries.splice(entries.findIndex(entry => entry.id == entryId), 1);
+    if (entries.length == 0) {
+      document.getElementById("entry-list").insertAdjacentHTML("beforeend", `<div id="empty-msg">No events yet!</div>`);
+    }
     storeEntries(entries);
-  }, 1000);
+  }
 }
 
 function storeEntries(entries) {
